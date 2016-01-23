@@ -1,7 +1,12 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Daimon">
     <words>
+      <w>debounce</w>
+      <w>firstname</w>
       <w>fullname</w>
+      <w>jian</w>
+      <w>lastname</w>
+      <w>todos</w>
     </words>
   </dictionary>
 </component>

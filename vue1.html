@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>Bootstrap 101 Template</title>
+    <title>Vue 学习笔记@daimon</title>
 
     <!-- Bootstrap -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -78,7 +78,221 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+
 <div id="app" class="container">
+
+    <h4>表单控件绑定</h4>
+    <hr>
+    <div class="form-group">
+        <span>Message is: {{ message }}</span>
+        <br>
+        <input type="text" v-model="message" placeholder="Edit me..." class="form-control">
+        <input type="checkbox" id="checkbox" v-model="checked1" class="form-control-static">
+        <label for="checkbox1">11{{ checked1 }}</label>
+        <lable>{{ checked1 }}</lable>
+    </div>
+    <div id="eg3">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames | json }}</span>
+    </div>
+    <script>
+        new Vue({
+            el: '#eg3',
+            data: {
+                checkedNames: []
+            }
+        })
+    </script>
+    <div id="eg4">
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+    </div>
+    <script>
+        new Vue({
+            el: '#eg4',
+            data: {
+                picked: 'aa'
+            }
+        })
+    </script>
+
+    <p>单选</p>
+    <div>
+        <select v-model="selected">
+            <option selected>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+
+    <p>多选</p>
+    <select v-model="selected" multiple>
+        <option selected>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <br>
+    <span>Selected: {{ selected}}</span>
+
+    <div id="eg5">
+        <p>动态选项，用v-for渲染</p>
+        <select v-model="selected">
+            <option v-for="option in options" :value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+    <script>
+        new Vue({
+            el: eg5,
+            data: {
+                options: [
+                    {text: 'Jian', value: 'jian'},
+                    {text: 'Dai', value: 'dai'}
+                ],
+            }
+        })
+    </script>
+
+    <div id="eg6">
+        <p>Checkbox, 选中/取消的值与变量绑定</p>
+        <input type="checkbox" v-model="toggle" :true-value="a" :false-value="b">
+    </div>
+    <script>
+        vm1 = new Vue({
+            el: '#eg6',
+            data: {
+                toggle: 1,
+                a: 'a',
+                b: 'b',
+            }
+        })
+    </script>
+
+    <div id="eg7">
+        <p>Radio, 选中值切换为a变量的值</p>
+        <input type="radio" v-model="pick" :value="a">
+    </div>
+    <script>
+        vm2 = new Vue({
+            el: '#eg7',
+            data: {
+                pick: '',
+                a: 'kakaka'
+            }
+        })
+    </script>
+
+    <div id="eg8">
+        <p>Select Options, 选中的值为变量词典</p>
+        <select v-model="selected">
+            <option :value="{ number: 123 }"> 123</option>
+        </select>
+    </div>
+
+    <div id="eg9">
+        <p>Lazy</p>
+        <input v-model="msg" lazy>
+        {{ msg}}
+    </div>
+
+    <div id="eg10">
+        <p>number. 如果没有这个number, age的值是字符型的，即使输入的是数字。但是有这个number，值是数字类型。但是如果输入的是字母，最后类型还是字符型的。</p>
+        <input v-model="age">
+        {{ age }}
+    </div>
+
+    <div id="eg11">
+        <p>debounce. 这个效果不错。看起来是停止输入后的debounce毫秒后进行计算。外人看起来会比较神奇</p>
+        <input v-model="msg" debounce="500">
+        {{ msg}}
+    </div>
+    <script>
+        new Vue({
+            el: '#eg11',
+            data: {
+                msg: 'edit me'
+            }
+        })
+    </script>
+
+    <div id="eg12">
+        <p>css过渡</p>
+        <div v-if="show" transition="expand1">hello</div>
+        <button @click="show=!show">Toggle</button>
+        <style>
+            .expand1-transition {
+                transition: all .3s ease;
+                height: 30px;
+                padding: 10px;
+                background-color: #eee;
+                overflow: hidden;
+            }
+
+            .expand1-enter, .expand1-leave {
+                height: 0;
+                padding: 0 10px;
+                opacity: 0;
+            }
+        </style>
+    </div>
+    <script>
+        new Vue({
+            el: '#eg12',
+            data: {
+                show: true
+            }
+        })
+        Vue.transition('expand1', {
+            beforeEnter: function (el) {
+                el.textContent = 'beforeEnter'
+//                alert('ha')
+            },
+            enter: function (el) {
+//                alert('ha2')
+                el.textContent = 'enter'
+            },
+            afterEnter: function (el) {
+                el.textContent = 'afterEnter'
+            },
+            enterCancelled: function (el) {
+                //handle cancellation
+            },
+            beforeLeave: function (el) {
+                el.textContent = 'beforeLeave'
+            },
+            leave: function (el) {
+                el.textContent = 'leave'
+            },
+            afterleave: function(el){
+                el.textContent = 'afterLeave'
+            },
+            leaveCancelled: function (el) {
+                // handle cancellation
+            }
+        })
+    </script>
+
+    <br>
+    <br>
+
+    <h4>之前</h4>
+    <hr>
+
+
     <h1> {{ message}}</h1>
     <p>
         <input type="text" title="test">
@@ -116,6 +330,8 @@
         这跟着更新：{{ eg1 }}
         这不跟着更新：{{ eg2 }}
     </div>
+
+
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -136,15 +352,16 @@
             greeting: false,
             firstname: 'Jian',
             lastname: 'Dai',
+            checked1: false,
         },
         methods: {
             reverseMessage: function () {
                 this.message = this.message.split('').reverse().join('')
             },
             addTodo: function () {
-                var text = this.newTodo.trim()
+                var text = this.newTodo.trim();
                 if (text) {
-                    this.todos.push({text: text})
+                    this.todos.push({text: text});
                     this.newTodo = ''
                 }
             },
@@ -156,16 +373,16 @@
             }
         },
         computed: {
-            fullname: function(){
+            fullname: function () {
                 return this.firstname + ' ' + this.lastname
             },
             eg1: {
                 cache: false,
-                get: function(){
+                get: function () {
                     return Date.now() + this.firstname
                 }
             },
-            eg2: function(){
+            eg2: function () {
                 return Date.now() + this.firstname
             }
         }
